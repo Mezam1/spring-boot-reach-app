@@ -5,6 +5,13 @@ on:
     branches:
       - dev
 
+env:
+  ECS_SERVICE: springboot-service               # set this to your Amazon ECS service name
+  ECS_CLUSTER: springboot-app                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: sprintboot # set this to the path to your Amazon ECS task definition
+                                               # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME: springboot-app          # set this to the name of the container in the
+
 jobs:
   # Build and test app
   build:
@@ -106,19 +113,18 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1  # Set your region
 
-      # Update the ECS task definition and deploy to ECS
-      - name: Deploy to AWS ECS
-        working-directory: ./app
-        run: |
-          pwd
-          ls
-          # Update ECS task definition with the new image URI
-          echo "Updating ECS task definition"
-          sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" ecs-task-definition.json
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
 
-          
-          # Update ECS service with the new task definition
-          SERVICE_NAME="springboot-service"  # Replace with your ECS service name
-          CLUSTER_NAME="ecs-cluster"  # Replace with your ECS cluster name
-          TASK_FAMILY=$(echo $TASK_DEFINITION | jq -r '.taskDefinition.family')
-          aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_FAMILY
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
