@@ -1,5 +1,5 @@
 {
-    "family": "spring-boot-app",
+    "family": "springboot-app",
     "executionRoleArn": "arn:aws:iam::577638358307:role/ECSFargateExecutionRole",
     "containerDefinitions": [
       {
