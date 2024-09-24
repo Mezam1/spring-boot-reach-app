@@ -14,7 +14,7 @@ module "ecs" {
   host_port          = 8080
   ecs_desired_count  = 1
   ecs_service_name   = "springboot-service"
-  alb_name           = "app-lb"
+  alb_name           = "app-lb-tf"
   alb_port           = 80
   alb_listener_port  = 80
 }

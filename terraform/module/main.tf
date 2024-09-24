@@ -155,7 +155,7 @@ resource "aws_lb" "app" {
 
 # Target Group for ALB
 resource "aws_lb_target_group" "app" {
-  name     = "app-tg"
+  name     = "app-tg-tf"
   port     = var.alb_port
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
