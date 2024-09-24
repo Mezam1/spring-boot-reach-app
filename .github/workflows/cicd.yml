@@ -37,10 +37,10 @@ jobs:
         run: |
           # Update ECS task definition with the new image URI
           echo "Updating ECS task definition"
-          sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" ecs-task-definition.json
+          sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" sprintboot.json
 
           # Register the updated ECS task definition
-          TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://ecs-task-definition.json)
+          TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://sprintboot.json)
           
           # Update ECS service with the new task definition
           SERVICE_NAME="springboot-service"  # Replace with your ECS service name
