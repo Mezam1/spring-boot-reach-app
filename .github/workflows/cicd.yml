@@ -116,8 +116,6 @@ jobs:
           echo "Updating ECS task definition"
           sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" ecs-task-definition.json
 
-          # Register the updated ECS task definition
-          TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json ecs-task-definition.json)
           
           # Update ECS service with the new task definition
           SERVICE_NAME="springboot-service"  # Replace with your ECS service name
