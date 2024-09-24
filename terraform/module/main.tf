@@ -74,7 +74,7 @@ resource "aws_security_group" "ecs_sg" {
 
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
+  name = "ecsTaskExecutionRole_tf"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -155,7 +155,7 @@ resource "aws_lb" "app" {
 
 # Target Group for ALB
 resource "aws_lb_target_group" "app" {
-  name     = "app-tg"
+  name     = "tf-app-tg"
   port     = var.alb_port
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
@@ -185,3 +185,4 @@ resource "aws_lb_listener" "app" {
     target_group_arn = aws_lb_target_group.app.arn
   }
 }
+

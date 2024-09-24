@@ -9,12 +9,12 @@ module "ecs" {
   ecs_cpu            = "256"
   ecs_memory         = "512"
   container_name     = "springboot-app"
-  docker_image       = "your-docker-image" # Replace with your image
-  container_port     = 80
-  host_port          = 80
+  docker_image       = "casoni/spring-boot-app:latest" # Replace with your image
+  container_port     = 8080
+  host_port          = 8080
   ecs_desired_count  = 1
   ecs_service_name   = "springboot-service"
-  alb_name           = "app-lb"
-  alb_port           = 80
-  alb_listener_port  = 80
+  alb_name           = "tf-app-lb"
+  alb_port           = 8080
+  alb_listener_port  = 8080
 }

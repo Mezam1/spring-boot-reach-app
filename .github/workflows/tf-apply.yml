@@ -28,10 +28,10 @@ jobs:
       working-directory: ./terraform
       run: |
         terraform init \
-          -backend-config="bucket=my-terraform-state-bucket" \
+          -backend-config="bucket=tfstate-sprintboot" \
           -backend-config="key=terraform.tfstate" \
           -backend-config="region=us-east-1" \
-          -backend-config="dynamodb_table=my-terraform-lock-table"
+          -backend-config="dynamodb_table=terraform-tfstate"
 
     - name: Terraform Plan
       env:
