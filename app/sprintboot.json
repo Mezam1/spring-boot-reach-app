@@ -1,6 +1,6 @@
 {
     "family": "springboot-app",
-    "executionRoleArn": "arn:aws:iam::577638358307:role/ECSFargateExecutionRole",
+    "executionRoleArn": "arn:aws:iam::577638358307:role/ecsTaskExecutionRole_tf",
     "containerDefinitions": [
       {
         "name": "springboot-app",
@@ -30,4 +30,5 @@
     "cpu": "256",
     "memory": "512"
   }
+  
   
