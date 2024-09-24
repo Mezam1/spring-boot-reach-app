@@ -15,6 +15,6 @@ module "ecs" {
   ecs_desired_count  = 1
   ecs_service_name   = "springboot-service"
   alb_name           = "tf-app-lb"
-  alb_port           = 80
-  alb_listener_port  = 80
+  alb_port           = 8080
+  alb_listener_port  = 8080
 }
