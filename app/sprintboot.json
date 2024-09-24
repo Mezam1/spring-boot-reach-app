@@ -3,7 +3,7 @@
     "executionRoleArn": "arn:aws:iam::577638358307:role/ECSFargateExecutionRole",
     "containerDefinitions": [
       {
-        "name": "springboot-app",
+        "name": "spring-boot-app",
         "image": "casoni/spring-boot-app:latest",
         "cpu": 256,
         "memory": 512,
