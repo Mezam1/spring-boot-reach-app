@@ -1,0 +1,33 @@
+{
+    "family": "springboot-app",
+    "executionRoleArn": "arn:aws:iam::577638358307:role/ECSFargateExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "springboot-app",
+        "image": "casoni/spring-boot-app:latest",
+        "cpu": 256,
+        "memory": 512,
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080,
+            "protocol": "tcp"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/spring-boot-app",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ],
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512"
+  }
+  
