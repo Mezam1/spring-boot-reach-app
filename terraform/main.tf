@@ -10,8 +10,8 @@ module "ecs" {
   ecs_memory         = "512"
   container_name     = "springboot-app"
   docker_image       = "your-docker-image" # Replace with your image
-  container_port     = 80
-  host_port          = 80
+  container_port     = 8080
+  host_port          = 8080
   ecs_desired_count  = 1
   ecs_service_name   = "springboot-service"
   alb_name           = "app-lb"
