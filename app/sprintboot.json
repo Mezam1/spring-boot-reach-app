@@ -1,6 +1,6 @@
 {
     "family": "springboot-app",
-    "executionRoleArn": "arn:aws:iam::577638358307:role/ECSFargateExecutionRole",
+    "executionRoleArn": "arn:aws:iam::577638358307:role/ecsTaskExecutionRole_tf",
     "containerDefinitions": [
       {
         "name": "springboot-app",
@@ -11,7 +11,7 @@
         "portMappings": [
           {
             "containerPort": 8080,
-            "hostPort": 8080,
+            "hostPort": 0,
             "protocol": "tcp"
           }
         ],
