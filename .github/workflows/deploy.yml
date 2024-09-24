@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches:
+      - deploy
+
+jobs:
+  # Build and test app
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+
+  # Deployment job to AWS ECS
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Configure AWS CLI with Access Key and Secret Key
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1  # Set your region
+
+      # Update the ECS task definition and deploy to ECS
+      - name: Deploy to AWS ECS
+        working-directory: ./app
+        run: |
+          # Update ECS task definition with the new image URI
+          echo "Updating ECS task definition"
+          sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" sprintboot.json
+
+          # Register the updated ECS task definition
+          TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://sprintboot.json)
+          
+          # Update ECS service with the new task definition
+          SERVICE_NAME="springboot-service"  # Replace with your ECS service name
+          CLUSTER_NAME="ecs-cluster"  # Replace with your ECS cluster name
+          TASK_FAMILY=$(echo $TASK_DEFINITION | jq -r '.taskDefinition.family')
+          aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_FAMILY
