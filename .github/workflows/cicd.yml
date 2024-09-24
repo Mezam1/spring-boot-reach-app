@@ -110,6 +110,8 @@ jobs:
       - name: Deploy to AWS ECS
         working-directory: ./app
         run: |
+          pwd
+          ls
           # Update ECS task definition with the new image URI
           echo "Updating ECS task definition"
           sed -i "s|<IMAGE_URI>|${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest|g" ecs-task-definition.json
