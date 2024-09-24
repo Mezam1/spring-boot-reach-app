@@ -18,7 +18,7 @@ jobs:
 
   # Deployment job to AWS ECS
   deploy:
-    needs: docker
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
